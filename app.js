@@ -24,7 +24,7 @@ var catalogRoutes = require('./routes/catalogRoutes.js');
 // Hide secret data with nconf
 var nconf = require('nconf');
  
-nconf.argv().env().file({ file: './user-library1111/config.json' });
+nconf.argv().env().file({ file: './user-library1112/config.json' });
  
 // console.log('nconf.get: ' + nconf.get("DB_USER"));
 // console.log('nconf.get: ' + nconf.get("DB_PASSWORD"));

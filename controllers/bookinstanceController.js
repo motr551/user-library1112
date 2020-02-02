@@ -162,7 +162,7 @@ exports.bookinstance_detail_post = [
                 imprint: bookinstance.imprint,
                 due_back: bookinstance.due_back,
                 reserved_by: req.user.username,
-                loaned_by: "",
+                loaned_by: req.user.username,
                 _id: req.params.id
               });
           }
