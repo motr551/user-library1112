@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./layout/head.ejs'); %>
+</head>
+<body>
+  <%- include('./layout/bodyMenu.ejs'); %>
+  <div style="width: 850px; float:left; " > 
+    <!-- Start of bookinstance_list.ejs -->
+
+    
+    <h1><%= title %></h1>
+    <ul>
+      <% for (i=0; i< bookinstance_list.length; i++) { %>
+        <li>
+          <a href= <%= bookinstance_list[0].url %> > 
+            <%= bookinstance_list[0].url %> :
+            <%= bookinstance_list[0].imprint %>
+          </a>
+          <% if ( bookinstance_list[0].status == 'Available') { %>
+            <font color="silver"> <%= bookinstance_list[i].status %> 
+            </font> 
+          <% } else { %> 
+            <font color="red"> <%= bookinstance_list[i].status %> 
+            </font> (due: <%= newDateFormat[i].due_back_formatted %> )
+          <% } %> 
+
+        </li>
+      <% } %>
+    </ul>    
+    
+    <!-- end of bookinstance_list.ejs -->
+   
+  </div> 
+
+</body>
+</html>

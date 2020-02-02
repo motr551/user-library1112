@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../layout/head.ejs'); %>
+  <%- include('../layout/form.ejs'); %>
+</head>
+<body>
+  <%- include('../layout/bodyMenu.ejs'); %>
+  <div style="width: 850px; float:left; " > 
+        
+    <h1><%= title %></h1>
+
+    <ul>
+      <% for (i=0; i< bookinstance_list.length; i++) { %>
+        <li>
+          <a href= <%= bookinstance_list[i].url %> > 
+            <%= bookinstance_list[i].book.title %> :
+            <%= bookinstance_list[i].imprint %> -
+          </a>
+
+          <% if ( bookinstance_list[i].status == 'Available') { %>
+            <font color="silver"> 
+               <%= bookinstance_list[i].status %> 
+            </font> 
+
+          <% } else if (bookinstance_list[i].status=='Maintenance') { %> 
+            <font color="red"> 
+               <%= bookinstance_list[i].status %> 
+            </font>
+
+          <% } else if (bookinstance_list[i].status=='Loaned') { %> 
+            <font color="red"> 
+               <%= bookinstance_list[i].status %> 
+            </font>
+
+          <% } else { %>
+            <font color="orange"> 
+               <%= bookinstance_list[i].status %> 
+            </font>
+
+          <% } %> 
+         
+          <% if ( bookinstance_list[i].status != 'Available') { %>
+            <font> (due: <%= bookinstance_list[i].due_back_formatted %> )
+            </font>
+          <% } %> 
+ 
+        </li>
+      <% } %>
+    
+    </ul>
+   
+  </div> 
+
+</body>
+</html>

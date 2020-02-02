@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./layout/head.ejs'); %>
+</head>
+<body>
+  <%- include('./layout/bodyMenu.ejs'); %>
+  <div style="width: 850px; float:left; " >  
+    <h1>Genre: <%= title %> <%= genre.name %></h1>
+   
+    <% for (i=0; i< genre_books.length; i++) { %>
+      
+      <a href= <%= book.url %> > 
+        <%= book.title %>
+      </a>
+      <%= book.summary %>
+
+    <% } %>
+    
+  </div> 
+</body>
+</html>    
+   

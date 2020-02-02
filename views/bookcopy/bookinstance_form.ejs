@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../layout/head.ejs'); %>
+  <%- include('../layout/form.ejs'); %>
+ </head>
+<body>
+  <%- include('../layout/bodyMenu.ejs'); %>
+  <div style="width: 850px; float:left; " >  
+    <h1><%= title %></h1>
+    
+    <form action="" method="POST">
+      <div>
+        <!-- Select book id by name/title -->
+        <label for="book">Book:</label>
+
+        <select type='select' placeholder="Select Book"  name="book" required="true">
+          
+          <% books.sort( (a,b)=> {
+              let aTitle = a.title.toUpperCase();
+              let bTitle = b.title.toUpperCase();
+              return  aTitle< bTitle ? -1 : 
+                      aTitle > bTitle? 1 : 0;
+            })
+          %>
+          
+          <% for (i=0; i<books.length ; i++) { %>
+            <% if (typeof bookinstance!== 'undefined') { %>
+              <option value= <%= books[i]._id %>  
+                <%= typeof books[i].checked == 'true'? 
+                  'selected' : ''; %>
+                
+              > 
+                <%= books[i].title %>
+              </option>
+
+            <% } else { %>
+             <option value= <%= books[i]._id %> 
+               >
+               <%= books[i].title %> 
+              </option>
+            <% } %>
+          <% } %>
+        </select>
+
+        <!-- Enter name of imprint/publisher -->
+        <label for="imprint">Imprint:</label>
+
+        <input type="text" placeholder='Publisher and date information' name="imprint" required='true' 
+        value= "<%= typeof bookinstance== 'undefined'?  '' : bookinstance.imprint; %>"
+        >
+
+        <!-- Enter due book date -->
+        <label for="due_back">Date when book available:</label>
+        <br>
+        <input type="date" name="due_back" 
+        value= "<%= typeof bookinstance === 'undefined'? 
+            '' : bookinstance.due_back_for_update; %>"
+        >
+        <br>
+
+        <!-- Select status -->
+        <label for="status"></label>
+
+        <select type='select' placeholder='Select status' name="status" required="true">
+          
+          <option value="Maintenance" <%= typeof bookinstance != 'undefined' && bookinstance.status=='Maintenance'? 'selected':'' %>
+            >Maintenance</option>
+
+          <option value="Available" <%= typeof bookinstance != 'undefined' &&  bookinstance.status=='Available'? 'selected':'' %>
+            >Available</option>
+
+          <option value="Loaned" <%= typeof bookinstance != 'undefined' &&  bookinstance.status=='Loaned'? 'selected':'' %>
+            >Loaned</option>
+
+          <option value="Reserved" <%= typeof bookinstance != 'undefined' &&  bookinstance.status=='Reserved'? 'selected':'' %>
+            >Reserved</option>
+
+        </select>
+        <br>
+        
+        <!-- Enter due book date -->
+<!--         
+        <label for="user">Loaned to user:</label>
+        <br>
+        <input type="text" name="user" 
+        value= "<%= typeof username === 'undefined'? 
+            '' : username; %>"
+        >
+         -->
+
+        <button type='submit'>Submit</button>
+
+        <% if (typeof errors!= 'undefined') { %>
+          <ul>
+            <% for (i=0; i< errors.length; i++) { %>
+              <li>
+                  <%= errors[i].msg %>
+              </li>
+            <% } %>
+          </ul>
+        <%  } %>
+
+
+
+     </div>
+      
+
+    </form>
+
+  </div> 
+</body>
+</html>    

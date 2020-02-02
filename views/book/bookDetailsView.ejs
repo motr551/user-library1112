@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../layout/head.ejs'); %>
+  <%- include('../layout/form.ejs'); %>
+</head>
+<body>
+  <%- include('../layout/bodyMenu.ejs'); %>
+  <div style="width: 850px; float:left;  " >  
+     
+    <h1>BOOK DETAILS</h1>
+    <h3>Title: <%= book.title %> </h3>
+    
+    <p><strong>Author: </strong>
+      <a href= <%= book.author.url %> >
+        <%= book.author.name %>
+      </a>
+    </p>
+    <p><strong>Summary: </strong>
+      <%= book.summary %>
+    </p>
+    <p><strong>ISBN: </strong>
+      <%= book.isbn %>
+    </p>
+    <p><strong>Genre:</strong>&nbsp;
+    
+      <% for (i=0; i< book.genre.length; i++) { %> 
+      <a href= <%= book.genre[i].url %> > 
+        <%= book.genre[i].name %> 
+      </a>
+      <% } %>
+    </p>
+    
+    <!-- Copies -->
+    <div style="margin-left: 20px;">  
+      <h4>Copies</h4>
+
+      <% for (i=0; i< book_instances.length; i++) { %>
+        
+        <hr>
+        <% if (book_instances[i].status == 'Available') { %>
+          
+          <!-- Imprint: Publishers_Name -->
+          <p style="color: green">
+            <%= book_instances[i].status %>
+          </p>
+          <p><strong>Imprint:</strong>
+            <%= book_instances[i].imprint %>
+          </p>
+        
+        
+        <% } else if (book_instances[i].status == 'Maintenance') { %>
+        
+                  
+        <p style="color:red">
+            <%= book_instances[i].status %>
+          </p>
+          <p><strong>Imprint:</strong>
+            <%= book_instances[i].imprint %>
+          </p>
+         
+        
+        <% } else  { %>
+      
+                      
+          <p style="color:blue">
+              <%= book_instances[i].status %>
+            </p> 
+          <p><strong>Imprint:</strong>
+            <%= book_instances[i].imprint %>
+          </p> 
+
+        <% } %> 
+        <!-- if ends -->
+      <% } %>  
+      <!-- for ends -->
+
+      <% for (i=0; i< book_instances.length; i++) { %>
+
+        <% if (book_instances[i].status == 'Available') { %>
+          
+          
+          <p><strong>Due back:</strong>
+            <%= book_instances[i].due_back_formatted %>
+          </p>
+          <p><strong>Id:</strong>&nbsp;
+            <a href=<%= book_instances[i].url %>>
+              <%= book_instances[i]._id %>
+            </a>
+          </p>
+
+        <% } else  { %>
+          <!-- <p>? book_detail.ejs - else </p> -->
+          <p>There are no copies of this book in the library</p>
+        <% } %>
+        <!-- if ends -->
+
+      <% } %>  
+      <!-- for ends -->
+
+      <% if (username == 'admin') { %>
+			
+        <hr>
+        <p> <a href='<%= book.url %>/delete' >
+          Delete Book </a> 
+        </p>
+
+        <p> <a href='<%= book.url %>/update' >
+            Update Book </a> 
+        </p>
+      <% } %>
+
+    </div>        
+
+  </div>
+</body>
+</html>    
+

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../layout/head.ejs'); %>
+  <%- include('../layout/form.ejs'); %>
+</head>
+<body>
+  <%- include('../layout/bodyMenu.ejs'); %>
+  <div style="width: 850px; float:left;"> 
+    <h1>BOOK INSTANCE DETAIL</h1>
+    
+    <h3>ID: <%= bookinstance.id %></h3>
+
+    <p><strong>Title:</strong>
+      <a href=<%= bookinstance.book.url %> > <%= bookinstance.book.title %>
+      </a>
+    </p>
+
+    <p><strong>Imprint:</strong>
+      <%= bookinstance.imprint %>
+    </p>
+
+    <p><strong>Status:</strong>
+      <% if (bookinstance.status=='Available') { %>
+        <span style="color: rgb(35, 202, 35)"><%= bookinstance.status %>
+        </span>
+        
+        <Br><br>
+        This copy of the book is "available" to Reserve, click below to reserve:
+        <Form action="" method="post">
+          <div>
+<!-- 
+          <input type="radio" name="status" 
+          value="Loaned">Loaned<br>
+           <input type="radio" name="status" 
+          value="Available">Return<br> 
+           -->
+          <button type="submit" name="status" value="makeBookReserved">Reserve Book</button>
+          <!-- <p style="width: 150px"> -->
+          <!-- <input type="submit" style="width: 150px; background-color: lightblue ;" name="status" value="Reserve Book" > -->
+          <!-- </p> -->
+          </div>
+        </Form> 
+     
+
+      <% } else if ( bookinstance.status=='Maintenance') { %>
+        <span style="color: red"><%= bookinstance.status %>
+        </span>
+      <% } else if ( bookinstance.status=='Loaned') { %>
+        <span style="color: rgb(228, 207, 19)"><%= bookinstance.status %>
+        </span>
+            <% if (username == 'admin') { %>
+              <strong> By:</strong>   <%=bookinstance.loaned_by %>
+          <% } %>
+        <% } else if ( bookinstance.status=='Reserved') { %>
+          <span style="color: rgb(228, 207, 19)"><%= bookinstance.status %>
+          </span>
+          <% if (username == 'admin') { %>
+             <strong> By:</strong>   <%=bookinstance.reserved_by %>
+          <% } %>
+          <Form action="" method="post">
+            <div>
+  <!-- 
+            <input type="radio" name="status" 
+            value="Loaned">Loaned<br>
+             <input type="radio" name="status" 
+            value="Available">Return<br> 
+             -->
+             <% if (username == 'admin'  || username == bookinstance.reserved_by ) { %>
+            <button type="submit" name="status" value="makeBookAvailable">Delete Book Reservation</button>
+            <% } %>
+            <!-- <p style="width: 150px"> -->
+            <!-- <input type="submit" style="width: 150px; background-color: lightblue ;" name="status" value="Reserve Book" > -->
+            <!-- </p> -->
+            </div>
+          </Form>
+
+
+      <% } %>
+    
+    </p>
+
+    <% if (bookinstance.status != 'Available') { %>
+      <p><strong>Due back: </strong>
+        <%= bookinstance.due_back_formatted %>
+      </p>
+    <% } %>
+
+    <% if (username == 'admin') { %>
+      <hr> 
+      <p><a href='<%= bookinstance.url %>/delete'>
+        Delete bookinstance
+        </a>
+      </p>
+      <p> <a href='<%= bookinstance.url %>/update' >
+        Update Bookinstance </a> 
+      </p>
+    <% } %> 
+      
+  </div>
+</body>
+</html>    
+

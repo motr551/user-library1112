@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../layout/head.ejs'); %>
+  <%- include('../layout/form.ejs'); %>
+  
+</head>
+<body>
+  <%- include('../layout/bodyMenu.ejs'); %>
+  <div style="width: 850px; float:left; " > 
+        
+    <h1><%= title %>: <%= book.title  %></h1>
+ 
+    
+    <% if ( book_bookinstances.length> 0) { %>
+      
+      <p><strong>Delete the following bookinstance(s) before deleting this book</strong></p> 
+ 
+      <div style="margin-left: 20px; margin-top:20px">
+ 
+        <h4>Bookinstances:</h4>
+ 
+        <dl>
+          <% for (i=0; i<book_bookinstances.length; i++) { %>
+            <hr>
+            <dt>
+              <a href="<%= book_bookinstances[i].url %>">
+               Imprint: <%= book_bookinstances[i].imprint %>
+              </a>
+            </dt>
+            <dd>
+              <%= book_bookinstances[i].status %>
+            </dd>
+          <% } %>
+ 
+ 
+        </dl>
+ 
+      </div>
+ 
+    <% } else { %>
+      <p style="color:red" >Do you really want to delete this book?</p>
+ 
+      <form action="" method="POST">
+        <div>
+          <input type="hidden", name='bookid', required='true' 
+          value=<%= book._id %> >
+        </div>
+ 
+        <button style="color:red" type="submit">Delete</button>
+      </form>
+    <% } %>
+   
+     
+ 
+  </div> 
+ 
+</body>
+</html>

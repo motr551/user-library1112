@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  
+  <% if (user) {%>
+    <h1>WELCOME BACK <%= user.username %></h1>
+    <a href="/users/logout">LOG OUT</a>
+  <% } else { %>
+    
+    <h1>PLEASE LOG IN</h1>
+    <form action="" method="POST">
+      
+      <label for="username">Username</label>
+      <input style="
+      margin-bottom: 10px;" name="username" placeholder="username" type="text" />
+      <br>
+
+      <label style="
+      margin-right: 4px; "  for="password">Password</label>
+      <input placeholder="Password" name="password" type="password" />
+      <br>
+
+      <button style="
+      margin-left: 68px;
+      margin-top: 10px;">Log In</button>
+
+    </form>
+  <%}%>
+
+</body>
+</html>
