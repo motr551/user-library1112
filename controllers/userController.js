@@ -11,7 +11,7 @@ const bcrypt = require('bcryptjs');
 // Function one : setting up the LocalStrategy
 passport.use(
   new LocalStrategy((username, password, done) => {
-    console.log('username:'+username+', passwor:'+password);
+    console.log('username:'+username+', password:'+password);
     User.findOne({ username: username }, (err, user) => {
       console.log('> passport.use');
     

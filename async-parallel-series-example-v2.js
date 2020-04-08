@@ -28,91 +28,54 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 //==================
 
-function authorCreate(first_name, family_name, d_birth, d_death, cb) {
-  authordetail = {first_name:first_name , family_name: family_name }
-  if (d_birth != false) authordetail.date_of_birth = d_birth
-  if (d_death != false) authordetail.date_of_death = d_death
-  
-  var author = new Author(authordetail);
-       
-  author.save(function (err) {
-    if (err) {
-      cb(err, null)
-      return
-    }
-    console.log('New Author: ' + author);
-    //authors.push(author)
-    cb(null, author)
-  }  );
-}
-
-function genreCreate(name, cb) {
-  var genre = new Genre({ name: name });
-       
-  genre.save(function (err) {
-    if (err) {
-      cb(err, null);
-      return;
-    }
-    console.log('New Genre: ' + genre);
-    //genres.push(genre)
-    cb(null, genre);
-  }   );
-}
-
-function snesting1(cb) {
+function snesting1(cb1) {
   async.series(
       [
-        function(callback) {
-          authorCreate('Patrick', 'Rothfuss', '1973-06-06', false, callback)
+        function(cb2) {
           console.log('serial task 1');
-          //callback(null, 'st1');
+          cb2(null, 'st1');
         },
-
-        function(callback) {
-          authorCreate('Ben', 'Bova', '1932-11-8', false, callback);
-        
+        function(cb2) {
           console.log('serial task 2');
-          //callback(null, 'st2');
+          cb2(null, 'st2');
         }
         
       ],
       function(err, results) {
-        console.log('-------- results: '+results);
-        //console.log(' .......nesting1 ending...');
-        //cb;
+        console.log(results);
+        console.log(' .......nesting1 ending...');
+        cb1;
         // results is now equal to [1, 2, 3]
       }
     );
 
 }
 
-function snesting2(cb) {
+function snesting2(callback2) {
   async.series(
       [
-        function(callback) {
-          genreCreate("Fantasy", callback);
+        function(callback3) {
+          
           console.log('serial task 3');
-          //callback(null, 'st3');
+          callback3(null, 'st3');
         },
-        function(callback) {
-          genreCreate("Science Fiction", callback);
+        function(callback3) {
           console.log('serial task 4');
-          //callback(null, 'st4');
+          callback3(null, 'st4');
         }
         
       ],
       function(err, results) {
-        console.log('-------- results: '+results);
-        //console.log(' .......nesting2 ending...');
-        cb;
+        console.log(results);
+        console.log(' .......nesting2 ending...');
+        callback2;
         // results is now equal to [1, 2, 3]
       }
     );
 
 }
 
-function pnesting3(callback) {
+function pnesting3(cb1) {
   async.parallel([
     function(cb) {
       setTimeout(function() {
@@ -128,34 +91,33 @@ function pnesting3(callback) {
     }
   ],
   function(err, results) {
-    console.log('-------- results: '+results);
-    //console.log(' ......pnesting3 ending..');
-    callback;
+    console.log(results);
+    console.log(' ......pnesting3 ending..');
+    cb1;
     // the results array will equal [1, 2] even though
     // the second function had a shorter timeout.
   });
-  
 }
 
-function pnesting4(cb) {
+function pnesting4(cb1) {
   async.parallel([
-    function(callback) {
+    function(cb) {
       setTimeout(function() {
         console.log('Parallel Task 7 - 500ms');
-        callback(null, 'pt7');
+        cb(null, 'pt7');
       }, 500);
     },
-    function(callback) {
+    function(cb) {
       setTimeout(function() {
         console.log('Parallel Task 8 - 100ms');
-        callback(null, 'pt8');
+        cb(null, 'pt8');
       }, 150);
     }
   ],
   function(err, results) {
-    console.log('-------- results: '+results);
-    //console.log(' ......pnesting4 ending..');
-    cb;
+    console.log(results);
+    console.log(' ......pnesting4 ending..');
+    cb1;
     // the results array will equal [1, 2] even though
     // the second function had a shorter timeout.
   });
@@ -165,19 +127,16 @@ function pnesting4(cb) {
 // main
 async.series(
 [
-  // function(cb) {
-  //   snesting1();
-  //   console.log('----Serial Nesting 1 Ended ------');
-  //   cb(null, 1);
-  // },
-  snesting1,
-
-  // function(cb) {
-  //   snesting2();
-  //   console.log('----Serial Nesting 2 Ended ------');
-  //   cb(null, 2);
-  // },
-  snesting2,
+  function(cb) {
+    snesting1();
+    console.log('----Serial Nesting 1 Ended ------');
+    cb(null, 1);
+  },
+  function(cb) {
+    snesting2();
+    console.log('----Serial Nesting 2 Ended ------');
+    cb(null, 2);
+  },
   function(cb) {
     pnesting3();
     console.log('----Parallel Nesting 3 Ended ------');
@@ -190,12 +149,12 @@ async.series(
   },
 ],
 function(err, results) {
-  console.log('-------- results: '+results);
+  console.log(results);
   // results is now equal to [1, 2, 3]
 });
 
 console.log('...........end..................')
-console.log('')
+console.log('................................')
 
 
 
